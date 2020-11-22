@@ -5,10 +5,10 @@
     // Region must be defined
     const region = 'us-east-1';
     var readyAWS = false;
-
+    var tempData;
     // aws variables
-
-
+    var lambda;
+    const functionName = "backspace-lambda-lab-2";
 	// Show the buttons
     $('#buttonSection').show();
     
@@ -41,7 +41,27 @@
         if (readyAWS){
             msgOut("Sending command");
             // Instantiate aws sdk service objects now that the credentials have been updated.
-                  
+            lambda = new AWS.Lambda();
+            var params = {
+                FunctionName: functionName,  /* required */
+                InvocationType: 'RequestResponse',
+                LogType: 'Tail',
+                Payload: '{"key1": "Milk", "key2": "Egss", "key3": "Bread"}'
+            };
+
+            lambda.invoke(params, function(err, data){
+                if(err) {
+                    console.log(err, err.stack);
+                    msgOut('Failed. See browser console for more details');
+                }
+                else {
+                    console.log(data)
+                    msgOut('Invoked AWS Lambda function.');
+                    msgOut('Response from Lambda function:');
+                    tempData = JSON.stringify(data.Payload);
+                    msgOut(tempData);
+                }
+            });
         }
     }    
 
