@@ -8,7 +8,7 @@
     var tempData;
     // aws variables
     var lambda;
-    const functionName = "backspace-lambda-lab-2";
+    const functionName = "backspace-lambda-lab-2";  /* will differ for each lambda function */
 	// Show the buttons
     $('#buttonSection').show();
     
